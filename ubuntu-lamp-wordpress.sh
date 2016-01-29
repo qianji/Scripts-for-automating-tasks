@@ -15,18 +15,20 @@ sudo /etc/init.d/apache2 restart
 #https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04
 sudo chown -R www-data:www-data /var/www
 sudo chmod -R g+rw /var/www
-
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password 123456'
-sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password 123456'
+mysql_root_password="your_password"
+wordpress_database="your_database"
+wordpress_mysql_user="your_user_name"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $mysql_root_password"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $mysql_root_password"
 sudo apt-get install mysql-server -y
 sudo apt-get install php5-mysql -y
 
 #sudo apt-get install phpmyadmin -y
 
-sudo mysql -u root -p123456 -e "CREATE DATABASE wordpress;"
-sudo mysql -u root -p123456 -e "CREATE USER wordpressuser@localhost IDENTIFIED BY 'password';"
-sudo mysql -u root -p123456 -e "GRANT ALL PRIVILEGES ON wordpress.* TO wordpressuser@localhost;"
-sudo mysql -u root -p123456 -e "FLUSH PRIVILEGES;"
+sudo mysql -u root -p$mysql_root_password -e "CREATE DATABASE $wordpress_database;"
+sudo mysql -u root -p$mysql_root_password -e "CREATE USER $your_user_name@localhost IDENTIFIED BY 'password';"
+sudo mysql -u root -p$mysql_root_password -e "GRANT ALL PRIVILEGES ON wordpress.* TO wordpressuser@localhost;"
+sudo mysql -u root -p$mysql_root_password -e "FLUSH PRIVILEGES;"
 
 cd ~
 wget http://wordpress.org/latest.tar.gz
@@ -34,7 +36,7 @@ sudo tar xzvf latest.tar.gz
 
 sudo apt-get install php5-gd libssh2-php -y
 cd ~/wordpress
-cp wp-config-sample.php wp-config.php
+sudo cp wp-config-sample.php wp-config.php
 sudo rsync -avP ~/wordpress/ /var/www/html/
 sudo chown -R www-data:www-data *
 sudo mkdir /var/www/html/wp-content/uploads
@@ -42,9 +44,21 @@ sudo chown -R :www-data /var/www/html/wp-content/uploads
 
 sudo /etc/init.d/apache2 restart
 
+# modifying files
+
+sudo sed -i '166 s/None/All/' /etc/apache2/apache2.conf
 #add to wp-config.php
 #define('FS_METHOD', 'direct');
+sudo sed -i '$a\define("FS_METHOD", "direct\");' /var/www/html/wp-config.php
 
+sudo sed -i '$a\max_execution_time = 180' /etc/php5/apache2/php.ini
+sudo sed -i '$a\max_input_time = 600' /etc/php5/apache2/php.ini
+sudo sed -i '$a\post_max_size = 128M' /etc/php5/apache2/php.ini
+sudo sed -i '$a\upload_max_filesize = 256M' /etc/php5/apache2/php.ini
+
+database="wordpress"
+username=""
+sudo sed -i "s/database_name_here/$database/" /home/ubuntu/wp-config.php
 #http://www.templatemonster.com/help/wordpress-troubleshooter-how-to-deal-with-are-you-sure-you-want-to-do-this-error-2.html#gref
 
 # add to the end of php.ini
