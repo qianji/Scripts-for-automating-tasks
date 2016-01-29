@@ -57,9 +57,9 @@ sudo sed -i '$a\max_input_time = 600' /etc/php5/apache2/php.ini
 sudo sed -i '$a\post_max_size = 128M' /etc/php5/apache2/php.ini
 sudo sed -i '$a\upload_max_filesize = 256M' /etc/php5/apache2/php.ini
 
-sudo sed -i "s/database_name_here/$wordpress_database/" /home/ubuntu/wp-config.php
-sudo sed -i "s/username_here/$wordpress_mysql_user/" /home/ubuntu/wp-config.php
-sudo sed -i "s/password_here/$wordpress_database_password/" /home/ubuntu/wp-config.php
+sudo sed -i "s/database_name_here/$wordpress_database/" /var/www/html/wp-config.php
+sudo sed -i "s/username_here/$wordpress_mysql_user/" /var/www/html/wp-config.php
+sudo sed -i "s/password_here/$wordpress_database_password/" /var/www/html/wp-config.php
 
 #http://www.templatemonster.com/help/wordpress-troubleshooter-how-to-deal-with-are-you-sure-you-want-to-do-this-error-2.html#gref
 
