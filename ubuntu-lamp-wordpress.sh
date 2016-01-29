@@ -61,6 +61,7 @@ sudo sed -i "s/database_name_here/$wordpress_database/" /var/www/html/wp-config.
 sudo sed -i "s/username_here/$wordpress_mysql_user/" /var/www/html/wp-config.php
 sudo sed -i "s/password_here/$wordpress_database_password/" /var/www/html/wp-config.php
 
+sudo sed -i "/DirectoryIndex/ s/DirectoryIndex /DirectoryIndex index.php /" /etc/apache2/mods-enabled/dir.conf
 #http://www.templatemonster.com/help/wordpress-troubleshooter-how-to-deal-with-are-you-sure-you-want-to-do-this-error-2.html#gref
 
 # add to the end of php.ini
