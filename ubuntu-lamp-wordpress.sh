@@ -15,4 +15,4 @@ sudo chmod -R g+rw /var/www
 sudo apt-get install mysql-server -y
 sudo apt-get install php5-mysql -y
 
-sudo apt-get install phpmyadmin -y
+#sudo apt-get install phpmyadmin -y
