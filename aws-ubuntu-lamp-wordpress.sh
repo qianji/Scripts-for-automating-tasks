@@ -8,9 +8,11 @@ sudo apt-get dist-upgrade -y
 sudo apt-get install apache2 -y
 
 sudo a2enmod rewrite
+sudo /etc/init.d/apache2 restart
 
 sudo apt-get install libapache2-mod-php5 -y
-
+sudo chown -R www-data:www-data /var/www
+sudo chmod -R g+rw /var/www
 #https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04
 mysql_root_password="your_password"
 wordpress_database="your_database"
@@ -62,7 +64,6 @@ sudo sed -i "/DirectoryIndex/ s/DirectoryIndex /DirectoryIndex index.php /" /etc
 
 
 sudo /etc/init.d/apache2 restart
-
 #http://www.templatemonster.com/help/wordpress-troubleshooter-how-to-deal-with-are-you-sure-you-want-to-do-this-error-2.html#gref
 
 # add to the end of php.ini
