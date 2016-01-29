@@ -9,7 +9,7 @@ sudo apt-get install apache2 -y
 
 sudo a2enmod rewrite
 
-sudo apt-get install libapache2-mod-php5
+sudo apt-get install libapache2-mod-php5 -y
 sudo /etc/init.d/apache2 restart
 
 #https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04
@@ -32,12 +32,12 @@ cd ~
 wget http://wordpress.org/latest.tar.gz
 sudo tar xzvf latest.tar.gz
 
-sudo apt-get install php5-gd libssh2-php
+sudo apt-get install php5-gd libssh2-php -y
 cd ~/wordpress
 cp wp-config-sample.php wp-config.php
 sudo rsync -avP ~/wordpress/ /var/www/html/
 sudo chown -R www-data:www-data *
-mkdir /var/www/html/wp-content/uploads
+sudo mkdir /var/www/html/wp-content/uploads
 sudo chown -R :www-data /var/www/html/wp-content/uploads
 
 sudo /etc/init.d/apache2 restart
