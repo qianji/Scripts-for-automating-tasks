@@ -1,5 +1,7 @@
-http://www.chrishjorth.com/blog/free-aws-ec2-ubuntu-apache-php-mysql-setup/
 #This is a script for setting up AWS EC2 Ubuntu-Apache-PHP-MySQL and wordpress
+
+#http://www.chrishjorth.com/blog/free-aws-ec2-ubuntu-apache-php-mysql-setup/
+
 sudo apt-get update
 sudo apt-get dist-upgrade -y
 
@@ -9,6 +11,8 @@ sudo a2enmod rewrite
 
 sudo apt-get install libapache2-mod-php5
 sudo /etc/init.d/apache2 restart
+
+#https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04
 sudo adduser ubuntu www-data
 sudo chown -R www-data:www-data /var/www
 sudo chmod -R g+rw /var/www
@@ -31,7 +35,17 @@ sudo apt-get install php5-gd libssh2-php
 cd ~/wordpress
 cp wp-config-sample.php wp-config.php
 sudo rsync -avP ~/wordpress/ /var/www/html/
-sudo chown -R ubuntu:www-data *
+sudo chown -R www-data:www-data *
 mkdir /var/www/html/wp-content/uploads
 sudo chown -R :www-data /var/www/html/wp-content/uploads
 
+#add to wp-config.php
+#define('FS_METHOD', 'direct');
+
+#http://www.templatemonster.com/help/wordpress-troubleshooter-how-to-deal-with-are-you-sure-you-want-to-do-this-error-2.html#gref
+
+# add to the end of php.ini
+# max_execution_time = 180
+# max_input_time = 600
+# post_max_size = 128M
+# upload_max_filesize = 256M
