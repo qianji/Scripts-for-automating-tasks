@@ -18,6 +18,7 @@ sudo chmod -R g+rw /var/www
 mysql_root_password="your_password"
 wordpress_database="your_database"
 wordpress_mysql_user="your_user_name"
+wordpress_database_password="your_password"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $mysql_root_password"
 sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $mysql_root_password"
 sudo apt-get install mysql-server -y
@@ -26,8 +27,8 @@ sudo apt-get install php5-mysql -y
 #sudo apt-get install phpmyadmin -y
 
 sudo mysql -u root -p$mysql_root_password -e "CREATE DATABASE $wordpress_database;"
-sudo mysql -u root -p$mysql_root_password -e "CREATE USER $your_user_name@localhost IDENTIFIED BY 'password';"
-sudo mysql -u root -p$mysql_root_password -e "GRANT ALL PRIVILEGES ON wordpress.* TO wordpressuser@localhost;"
+sudo mysql -u root -p$mysql_root_password -e "CREATE USER $wordpress_mysql_user@localhost IDENTIFIED BY '$wordpress_database_password';"
+sudo mysql -u root -p$mysql_root_password -e "GRANT ALL PRIVILEGES ON $wordpress_database.* TO $wordpress_mysql_user@localhost;"
 sudo mysql -u root -p$mysql_root_password -e "FLUSH PRIVILEGES;"
 
 cd ~
@@ -56,9 +57,10 @@ sudo sed -i '$a\max_input_time = 600' /etc/php5/apache2/php.ini
 sudo sed -i '$a\post_max_size = 128M' /etc/php5/apache2/php.ini
 sudo sed -i '$a\upload_max_filesize = 256M' /etc/php5/apache2/php.ini
 
-database="wordpress"
-username=""
-sudo sed -i "s/database_name_here/$database/" /home/ubuntu/wp-config.php
+sudo sed -i "s/database_name_here/$wordpress_database/" /home/ubuntu/wp-config.php
+sudo sed -i "s/username_here/$wordpress_mysql_user/" /home/ubuntu/wp-config.php
+sudo sed -i "s/password_here/$wordpress_database_password/" /home/ubuntu/wp-config.php
+
 #http://www.templatemonster.com/help/wordpress-troubleshooter-how-to-deal-with-are-you-sure-you-want-to-do-this-error-2.html#gref
 
 # add to the end of php.ini
