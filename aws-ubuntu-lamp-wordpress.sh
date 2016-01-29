@@ -10,11 +10,8 @@ sudo apt-get install apache2 -y
 sudo a2enmod rewrite
 
 sudo apt-get install libapache2-mod-php5 -y
-sudo /etc/init.d/apache2 restart
 
 #https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04
-sudo chown -R www-data:www-data /var/www
-sudo chmod -R g+rw /var/www
 mysql_root_password="your_password"
 wordpress_database="your_database"
 wordpress_mysql_user="your_user_name"
@@ -42,7 +39,8 @@ sudo rsync -avP ~/wordpress/ /var/www/html/
 sudo chown -R www-data:www-data *
 sudo mkdir /var/www/html/wp-content/uploads
 sudo chown -R :www-data /var/www/html/wp-content/uploads
-
+sudo chown -R www-data:www-data /var/www
+sudo chmod -R g+rw /var/www
 
 # modifying files
 
@@ -62,8 +60,7 @@ sudo sed -i "s/password_here/$wordpress_database_password/" /var/www/html/wp-con
 
 sudo sed -i "/DirectoryIndex/ s/DirectoryIndex /DirectoryIndex index.php /" /etc/apache2/mods-enabled/dir.conf
 
-sudo chown -R www-data:www-data /var/www
-sudo chmod -R g+rw /var/www
+
 sudo /etc/init.d/apache2 restart
 
 #http://www.templatemonster.com/help/wordpress-troubleshooter-how-to-deal-with-are-you-sure-you-want-to-do-this-error-2.html#gref
