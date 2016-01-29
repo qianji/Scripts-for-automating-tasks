@@ -13,10 +13,11 @@ sudo apt-get install libapache2-mod-php5
 sudo /etc/init.d/apache2 restart
 
 #https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-on-ubuntu-14-04
-sudo adduser ubuntu www-data
 sudo chown -R www-data:www-data /var/www
 sudo chmod -R g+rw /var/www
 
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password 123456'
+sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password 123456'
 sudo apt-get install mysql-server -y
 sudo apt-get install php5-mysql -y
 
@@ -38,6 +39,8 @@ sudo rsync -avP ~/wordpress/ /var/www/html/
 sudo chown -R www-data:www-data *
 mkdir /var/www/html/wp-content/uploads
 sudo chown -R :www-data /var/www/html/wp-content/uploads
+
+sudo /etc/init.d/apache2 restart
 
 #add to wp-config.php
 #define('FS_METHOD', 'direct');
