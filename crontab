@@ -1,0 +1,3 @@
+#crontab -e
+
+*/1 * * * * /home/bitnami/htdocs/auto-pull/git-pull-requests/fetch.sh 
